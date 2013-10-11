@@ -1,0 +1,6 @@
+Release v1.0 - 2013-10-11
+
+Guillaume Tucker (2):
+      initial commit: utility library (logging, configuration)
+      Android.mk: fix path to eglib
+

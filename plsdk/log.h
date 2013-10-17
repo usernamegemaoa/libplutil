@@ -1,7 +1,7 @@
 /*
-  Frame buffer graphics library - libpldraw
+  Plastic Logic utilities - Logging
 
-  Copyright (C) 2010, 2011 Plastic Logic Limited
+  Copyright (C) 2010, 2011, 2013 Plastic Logic Limited
 
       Guillaume Tucker <guillaume.tucker@plasticlogic.com>
       Nick Terry <nick.terry@plasticlogic.com>

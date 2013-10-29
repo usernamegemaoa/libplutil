@@ -69,12 +69,25 @@ struct plconfig *plconfig_init(const char *file, const char *group)
 	p = g_malloc(sizeof(struct plconfig));
 
 	if (!file) {
+#ifdef ANDROID
+		p->file_path = g_strdup("/system/etc/plsdk.ini");
+#else
 		const char *home = getenv("HOME");
 
-		if (home == NULL)
-			goto err_free_plconfig;
+		if (home == NULL) {
+			p->file_path = NULL;
+		} else {
+			p->file_path = g_strdup_printf("%s/.plsdk.ini", home);
 
-		p->file_path = g_strdup_printf("%s/.plsdk.ini", home);
+			if (access(p->file_path, R_OK)) {
+				g_free(p->file_path);
+				p->file_path = NULL;
+			}
+		}
+
+		if (p->file_path == NULL)
+			p->file_path = g_strdup("/etc/plsdk.ini");
+#endif
 	} else {
 		p->file_path = g_strdup(file);
 	}
@@ -93,7 +106,9 @@ err_free_all:
 	g_key_file_free(p->key_file);
 	g_free(p->group);
 	g_free(p->file_path);
+#ifndef ANDROID
 err_free_plconfig:
+#endif
 	g_free(p);
 
 	return NULL;

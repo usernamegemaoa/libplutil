@@ -1,3 +1,9 @@
+Release v1.0 -> v1.1 - 2013-10-29
+
+Guillaume Tucker (2):
+      plsdk/log.h: fix file description in copyright header
+      plconfig.c: fix file path for Android + /etc/plsdk.ini
+
 Release v1.0 - 2013-10-11
 
 Guillaume Tucker (2):

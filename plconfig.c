@@ -106,9 +106,6 @@ err_free_all:
 	g_key_file_free(p->key_file);
 	g_free(p->group);
 	g_free(p->file_path);
-#ifndef ANDROID
-err_free_plconfig:
-#endif
 	g_free(p);
 
 	return NULL;

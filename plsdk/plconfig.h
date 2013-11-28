@@ -79,7 +79,7 @@ extern const char *plconfig_get_str(struct plconfig *plconfig,
 extern int plconfig_get_int(struct plconfig *plconfig, const char *key,
 			    int def);
 
-/** Get a configuration hex value
+/** Get a configuration hexadecimal value
 
     The configuration value in the file is read as a hexadecimal number, which
     may contain a 0x prefix or h suffix for improved readability.
@@ -91,5 +91,14 @@ extern int plconfig_get_int(struct plconfig *plconfig, const char *key,
  */
 extern unsigned long plconfig_get_hex(struct plconfig *plconfig,
 				      const char *key, unsigned long def);
+
+/** Get a configuration 7-bit I2C address in hexadecimal format
+    @param[in] plconfig plconfig instance
+    @param[in] key name of the configuration entry
+    @param[in] def default value
+    @return configuration I2C address or default value if key not found
+ */
+extern char plconfig_get_i2c_addr(struct plconfig *plconfig, const char *key,
+				  char def);
 
 #endif /* INCLUDE_PLCONFIG_H */

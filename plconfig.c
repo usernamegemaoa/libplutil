@@ -40,6 +40,7 @@
 union plconfig_numeric {
 	int int_value;
 	unsigned long ulong_value;
+	char char_value;
 };
 
 struct plconfig_kv {
@@ -199,7 +200,7 @@ unsigned long plconfig_get_hex(struct plconfig *p, const char *key,
 			       unsigned long def)
 {
 	struct plconfig_kv *kv;
-	unsigned ulong;
+	unsigned long ulong;
 	char *str;
 	GError *err = NULL;
 
@@ -228,6 +229,45 @@ unsigned long plconfig_get_hex(struct plconfig *p, const char *key,
 	kv->numeric_value.ulong_value = ulong;
 
 	return kv->numeric_value.ulong_value;
+}
+
+char plconfig_get_i2c_addr(struct plconfig *p, const char *key, char def)
+{
+	struct plconfig_kv *kv;
+	char *str;
+	GError *err = NULL;
+	unsigned long ulong;
+
+	assert(p != NULL);
+
+	kv = get_cached_kv(p, key);
+
+	if (kv != NULL)
+		return kv->numeric_value.char_value;
+
+	str = g_key_file_get_string(p->key_file, p->group, key, &err);
+
+	if (err != NULL)
+		return def;
+
+	errno = 0;
+	ulong = strtoul(str, NULL, 16);
+
+	if (errno) {
+		LOG("warning: failed to parse I2C hex address for %s", key);
+		return def;
+	}
+
+	if (ulong > 0x7F) {
+		LOG("warning: 7-bit I2C address out of range: 0x%lX", ulong);
+		return def;
+	}
+
+	kv = add_kv(p, key);
+	kv->str_value = str;
+	kv->numeric_value.char_value = (char)ulong;
+
+	return kv->numeric_value.char_value;
 }
 
 /* ----------------------------------------------------------------------------

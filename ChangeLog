@@ -1,3 +1,9 @@
+Release v1.1 -> v1.2 - 2013-11-28
+
+Guillaume Tucker (2):
+      plconfig: fix compiler warning about unused label
+      plconfig: add _get_i2c_addr function for 7-bit I2C addresses
+
 Release v1.0 -> v1.1 - 2013-10-29
 
 Guillaume Tucker (2):
